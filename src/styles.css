@@ -1,0 +1,22 @@
+.container {
+    text-align: center;
+    font-family: Arial, sans-serif;
+  }
+  
+  nav ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  nav ul li {
+    display: inline;
+  }
+  
+  input, button {
+    margin: 5px;
+    padding: 10px;
+  }
+  
