@@ -1,0 +1,24 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: top;
+    height: 1300vh;
+    margin: 0;
+    font-family: 'Ga Maamli', sans-serif;
+  }
+  
+  .app-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%; /* Ensures the container takes up full width */
+    min-height: 100vh; /* Ensures the container takes up full height */
+    text-align: center; /* Centers text inside the container */
+  }
+  
+  .navbar {
+    width: 100%; /* Makes navbar stretch across the page */
+    text-decoration: wavy;
+  }
+  
