@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import StreamList from "./components/StreamList";
 import "./App.css";
+import "./styles.css";
 
 const App = () => {
   const [darkMode, setDarkMode] = useState(

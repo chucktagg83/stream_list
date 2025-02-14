@@ -1,21 +1,21 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { FaEdit, FaTrash, FaCheck } from "react-icons/fa";
+import "../homePage.css";
 
-const StreamList = () => {
+function StreamList() {
   const [movie, setMovie] = useState("");
   const [movies, setMovies] = useState([]);
 
   const addMovie = () => {
     if (movie.trim() !== "") {
       setMovies([...movies, { text: movie, completed: false }]);
-      setMovie(""); 
+      setMovie("");
     }
   };
 
   const toggleComplete = (index) => {
-    const updatedMovies = movies.map((item, i) =>
-      i === index ? { ...item, completed: !item.completed } : item
+    const updatedMovies = movies.map((item, i) => i === index ? { ...item, completed: !item.completed } : item
     );
     setMovies(updatedMovies);
   };
@@ -23,8 +23,7 @@ const StreamList = () => {
   const editMovie = (index) => {
     const newMovie = prompt("Edit your movie:", movies[index].text);
     if (newMovie !== null) {
-      const updatedMovies = movies.map((item, i) =>
-        i === index ? { ...item, text: newMovie } : item
+      const updatedMovies = movies.map((item, i) => i === index ? { ...item, text: newMovie } : item
       );
       setMovies(updatedMovies);
     }
@@ -41,8 +40,7 @@ const StreamList = () => {
         type="text"
         value={movie}
         onChange={(e) => setMovie(e.target.value)}
-        placeholder="Enter a movie or show"
-      />
+        placeholder="Enter a movie or show" />
       <button onClick={addMovie}>Add</button>
       <motion.ul layout>
         {movies.map((item, index) => (

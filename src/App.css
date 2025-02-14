@@ -1,3 +1,46 @@
+.navbar {
+    width: 100%; /* Makes navbar stretch across the page */
+    list-style: none; /* Removes bullet points from list */
+    justify-content: ceneter; /* Aligns items in the center */
+    display: flex; /* Aligns items in a row */
+    gap: 20px; /* Adds space between items */
+    padding: 0; /* Removes default padding */
+    margin: 0; /* Removes default margin */
+    background-color: #333; /* Sets background color */
+    display: flex;
+    justify-content: center;
+    align-items: center;  
+    padding: 0 20px; /* Adds padding around the navbar */
+    position: fixed; /* Fixes navbar to the top of the page */
+    margin: 0; /* Removes default margin */
+    z-index: 1000; /* Ensures the navbar is on top of other elements */
+    top: 0; /* Positions navbar at the top of the page */ 
+    left: 0; /* Positions navbar at the left of the page */
+    height: 60px; /* Sets height of the navbar */ 
+    font-color: yellow; /* Sets text color */
+  }
+
+  .navbar a:hover {
+    color: yellow; /* Changes text color on hover */
+  }
+
+  .navbar ul {
+    display: flex; /* Aligns items in a row */
+    gap: 100px; /* Adds space between items */
+    margin: 0; /* Removes default margin */
+    padding: 0; /* Removes default padding */
+  } 
+
+  .navbar li {
+    display: inline-block; /* Aligns items in a row */
+    color: yellow; /* Sets text color */
+    font-size: 1.2rem; /* Sets text size */
+    cursor: pointer; /* Changes cursor to pointer on hover */
+    padding: 10px 15px; /* Adds padding around each item */
+    letter-spacing: 0.3rem; /* Adds space between text */
+    text-transform: uppercase; /* Makes text uppercase */
+  }
+
 body {
     display: flex;
     justify-content: center;
@@ -15,10 +58,9 @@ body {
     width: 100%; /* Ensures the container takes up full width */
     min-height: 100vh; /* Ensures the container takes up full height */
     text-align: center; /* Centers text inside the container */
+    font-size: 2rem;
   }
   
-  .navbar {
-    width: 100%; /* Makes navbar stretch across the page */
-    text-decoration: wavy;
-  }
+
+  
   
