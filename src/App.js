@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 import StreamList from "./components/StreamList";
 import "./App.css";
 import "./styles.css";
+import Movies from "./components/Movies";
 
 const App = () => {
   const [darkMode, setDarkMode] = useState(
@@ -22,7 +23,7 @@ const App = () => {
         <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
         <Routes>
           <Route path="/" element={<StreamList />} />
-          <Route path="/movies" element={<h2>Movies Page (Coming Soon)</h2>} />
+          <Route path="/Movies" element={<Movies />} />
           <Route path="/cart" element={<h2>Cart Page (Coming Soon)</h2>} />
           <Route path="/about" element={<h2>About Page (Coming Soon)</h2>} />
         </Routes>
