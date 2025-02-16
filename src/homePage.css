@@ -1,14 +1,97 @@
-.container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;  /* Aligns items to the top */
-    text-align: center;
-    padding: 20px;
-    width: 100%;
-    max-width: 800px; /* Optional: Limits the width of the container */
-    margin: 0 auto; /* Centers the container horizontally */
-    margin-top: 200px; /* Adds space at the top of the container */
-    min-height: 100vh; /* Ensures the container takes up full height */
+/* Default Light Mode (fallback) */
+:root {
+  --background-color: #ffffff;
+  --card-background: #f9f9f9;
+  --text-color: #333333;
+  --button-background: #007BFF;
+  --button-hover: #0056b3;
+  --border-color: #ddd;
+}
+
+/* Dark Mode Overrides */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background-color: #121212;
+    --card-background: #1f1f1f;
+    --text-color: #f0f0f0;
+    --button-background: #6200ee;
+    --button-hover: #3700b3;
+    --border-color: #444;
   }
-  
+}
+
+/* General Page Styles */
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: Arial, sans-serif;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;  /* Aligns items to the top */
+  text-align: center;
+  padding: 20px;
+  width: 100%;
+  max-width: 800px; /* Optional: Limits the width of the container */
+  margin: 0 auto; /* Centers the container horizontally */
+  margin-top: 200px; /* Adds space at the top of the container */
+  min-height: 100vh; /* Ensures the container takes up full height */
+  background-color: var(--background-color);  /* Sets background for container */
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.movie-input {
+  margin-bottom: 20px;
+}
+
+.items-row {
+  display: flex;
+  flex-wrap: wrap;  /* To allow wrapping if there's not enough space */
+  gap: 20px;        /* Space between items */
+  justify-content: start; /* Align items to the start of the row */
+}
+
+.item-card {
+  width: 200px; /* Set a fixed width for each item */
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  text-align: center;
+  background-color: var(--card-background); /* Set background color based on mode */
+  color: var(--text-color); /* Set text color based on mode */
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.item-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+.item-card h3 {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.item-card p {
+  font-size: 14px;
+  margin: 5px 0;
+}
+
+.item-card button {
+  background-color: var(--button-background); /* Set button color based on mode */
+  color: rgb(253, 251, 251);
+  border: none;
+  padding: 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.item-card button:hover {
+  background-color: var(--button-hover); /* Set hover color based on mode */
+}
