@@ -19,26 +19,29 @@ export const CartProvider = ({ children }) => {
     // Function to add items to cart
     const addToCart = (item) => {
         setCart((prevCart) => {
-            // Prevent adding multiple subscriptions
-            if (item.type === "subscription") {
-                if (prevCart.some((cartItem) => cartItem.type === "subscription")) {
-                    alert("You can only have one subscription at a time.");
-                    return prevCart;
-                }
+          // Prevent adding multiple subscriptions
+          if (item.type === "subscription") {
+            if (prevCart.some((cartItem) => cartItem.type === "subscription")) {
+              alert("You can only have one subscription at a time.");
+              return prevCart;
             }
-
-            // If item already exists, increase quantity
-            const existingItem = prevCart.find((cartItem) => cartItem.id === item.id);
-            if (existingItem) {
-                return prevCart.map((cartItem) =>
-                    cartItem.id === item.id ? { ...cartItem, quantity: cartItem.quantity + 1 } : cartItem
-                );
-            }
-
-            // Otherwise, add a new item to cart
-            return [...prevCart, { ...item, quantity: 1 }];
+          }
+      
+          // If item already exists, increase quantity
+          const existingItem = prevCart.find((cartItem) => cartItem.id === item.id);
+          if (existingItem) {
+            return prevCart.map((cartItem) =>
+              cartItem.id === item.id ? { ...cartItem, quantity: cartItem.quantity + 1 } : cartItem
+            );
+          }
+      
+          // Otherwise, add a new item to cart
+          const updatedCart = [...prevCart, { ...item, quantity: 1 }];
+          console.log("Updated Cart:", updatedCart);  // Log cart here
+          return updatedCart;
         });
-    };
+      };
+      
 
     // Function to remove items from cart
     // Function to remove a specific item from the cart

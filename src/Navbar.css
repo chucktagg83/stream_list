@@ -1,0 +1,38 @@
+.navbar {
+    background-color: var(--primary-color);
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  ul {
+    list-style-type: none;
+    display: flex;
+    gap: 20px;
+  }
+  
+  li {
+    color: var(--primary-color);
+  }
+  
+  .toggle {
+    cursor: pointer;
+  }
+  
+  .navbar span {
+    color: var(--primary-color);
+    font-weight: bold;
+  }
+  
+  .cart-link {
+    color: var(--primary-color);
+    text-decoration: none;
+  }
+  
+  .cart-link:hover {
+    text-decoration: underline;
+    color: var(--primary-color);
+  }
+  

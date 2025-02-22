@@ -4,11 +4,11 @@ import Navbar from "./components/Navbar";
 import StreamList from "./components/StreamList";
 import "./App.css";
 import "./styles.css";
-import Movies from "./components/Movies"; // Import Movies component
-import { CartProvider } from "./CartContext"; // Import CartProvider
-import Cart from "./components/Cart"; // Import Cart component 
-import Subscription from "./components/Subscription"; // Import Subscription component
-import Product from "./components/Products";  // Import Product component
+import Movies from "./components/Movies";
+import { CartProvider } from "./CartContext";
+import Cart from "./components/Cart";
+import Subscription from "./components/Subscription";
+import Product from "./components/Products";
 
 function App() {
   const [darkMode, setDarkMode] = useState(

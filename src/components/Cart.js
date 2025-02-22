@@ -1,13 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
+import { FaTrash, FaArrowLeft, FaShoppingCart } from "react-icons/fa";
+import "../Cart.css";
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // Get cart items from local storage (if any)
-    const savedCartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
-    setCartItems(savedCartItems);
+    // Simulate loading time
+    setTimeout(() => {
+      const savedCartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+      setCartItems(savedCartItems);
+      setIsLoading(false);
+    }, 500);
   }, []);
 
   const removeItem = (id) => {
@@ -17,60 +25,117 @@ const Cart = () => {
   };
 
   const handleCheckout = () => {
-    // For now, just an alert for demonstration
     if (cartItems.length === 0) {
       alert("Your cart is empty! Add some items before checking out.");
     } else {
-      alert("Proceeding to checkout...");
-      // You can add navigation to checkout page here if you have one
-      // For example: navigate('/checkout') if you use react-router
+      // Save cart total to localStorage for checkout page
+      localStorage.setItem("cartTotal", 
+        cartItems.reduce((total, item) => total + item.price, 0).toFixed(2)
+      );
+      navigate('/checkout');
     }
   };
 
-  return (
-    <div>
-      <h2>Your Cart</h2>
-      {cartItems.length === 0 ? (
-        <p>Your cart is empty.</p>
-      ) : (
-        <div>
-          <ul>
-            {cartItems.map(item => (
-              <li key={item.id}>
-                <div>
-                  <img src={item.img} alt={item.service} width="50" />
-                  <h3>{item.service}</h3>
-                  <p>{item.serviceInfo}</p>
-                  <p>Price: ${item.price}</p>
-                  <button onClick={() => removeItem(item.id)}>Remove</button>
-                </div>
-              </li>
-            ))}
-          </ul>
-          <div>
-            <h3>Total Price: ${cartItems.reduce((total, item) => total + item.price, 0).toFixed(2)}</h3>
-          </div>
-          {/* Checkout button */}
-          <button
-            onClick={handleCheckout}
-            style={{
-              marginTop: "20px",
-              fontSize: "18px",        // Increases the font size
-              padding: "12px 24px",    // Increases the padding (height and width of the button)
-              borderRadius: "8px",     // Rounds the corners of the button
-              backgroundColor: "#007BFF", // Button color
-              color: "white",          // Text color
-              border: "none",          // Removes border
-              cursor: "pointer"        // Makes it a clickable button
-            }}
->
-  Checkout
-</button>
+  const getTotalPrice = () => {
+    return cartItems.reduce((total, item) => total + item.price, 0).toFixed(2);
+  };
 
+  if (isLoading) {
+    return (
+      <div className="cart-loading">
+        <FaShoppingCart className="loading-icon" />
+        <p>Loading cart...</p>
+      </div>
+    );
+  }
+
+  return (
+    <motion.div 
+      className="cart-container"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
+      <div className="cart-header">
+        <Link to="/" className="back-link">
+          <FaArrowLeft /> Back to Shopping
+        </Link>
+        <h2>Your Cart ({cartItems.length} items)</h2>
+      </div>
+
+      {cartItems.length === 0 ? (
+        <motion.div 
+          className="empty-cart"
+          initial={{ scale: 0.8 }}
+          animate={{ scale: 1 }}
+        >
+          <FaShoppingCart className="empty-cart-icon" />
+          <p>Your cart is empty</p>
+          <Link to="/" className="continue-shopping-btn">
+            Continue Shopping
+          </Link>
+        </motion.div>
+      ) : (
+        <div className="cart-content">
+          <div className="cart-items">
+            <AnimatePresence>
+              {cartItems.map(item => (
+                <motion.div
+                  key={item.id}
+                  className="cart-item"
+                  layout
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, x: -100 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <div className="item-image">
+                    <img src={item.img} alt={item.service} />
+                  </div>
+                  <div className="item-details">
+                    <h3>{item.service}</h3>
+                    <p>{item.serviceInfo}</p>
+                    <p className="item-price">${item.price}</p>
+                  </div>
+                  <button 
+                    className="remove-btn"
+                    onClick={() => removeItem(item.id)}
+                  >
+                    <FaTrash />
+                  </button>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </div>
+
+          <motion.div 
+            className="cart-summary"
+            initial={{ x: 100, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+          >
+            <h3>Order Summary</h3>
+            <div className="summary-row">
+              <span>Subtotal:</span>
+              <span>${getTotalPrice()}</span>
+            </div>
+            <div className="summary-row">
+              <span>Tax:</span>
+              <span>${(getTotalPrice() * 0.1).toFixed(2)}</span>
+            </div>
+            <div className="summary-total">
+              <span>Total:</span>
+              <span>${(parseFloat(getTotalPrice()) * 1.1).toFixed(2)}</span>
+            </div>
+            <button 
+              className="checkout-btn"
+              onClick={handleCheckout}
+            >
+              Proceed to Checkout
+            </button>
+          </motion.div>
         </div>
       )}
-      <Link to="/">Go back to shopping</Link>
-    </div>
+    </motion.div>
   );
 };
 
