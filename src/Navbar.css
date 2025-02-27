@@ -1,38 +1,73 @@
+/* Navbar Styling */
 .navbar {
-    background-color: var(--primary-color);
-    padding: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  ul {
-    list-style-type: none;
-    display: flex;
-    gap: 20px;
-  }
-  
-  li {
-    color: var(--primary-color);
-  }
-  
-  .toggle {
-    cursor: pointer;
-  }
-  
-  .navbar span {
-    color: var(--primary-color);
-    font-weight: bold;
-  }
-  
-  .cart-link {
-    color: var(--primary-color);
-    text-decoration: none;
-  }
-  
-  .cart-link:hover {
-    text-decoration: underline;
-    color: var(--primary-color);
-  }
-  
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #333;
+  color: white;
+}
+
+.navbar.light {
+  background-color: white;
+}
+
+.navbar.dark {
+  background-color: #333;
+}
+
+.navbar ul {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.navbar ul li {
+  padding: 0 10px;
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.toggle button {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.toggle button:hover {
+  color: #f44336;
+}
+
+/* Style for the user-info <li> */
+.navbar .user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 10px; /* Adjust padding as needed */
+  background-color: black; /* Black background for the text */
+  color: white; /* White text */
+  border-radius: 5px; /* Optional: rounded corners */
+}
+
+.user-info button {
+  padding: 5px 10px;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: point
+}

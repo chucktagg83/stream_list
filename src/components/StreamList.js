@@ -1,44 +1,26 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaCheck, FaEdit, FaTrash } from "react-icons/fa";
+import { CartContext } from "../CartContext";
 import list from "../data";
 import "../homePage.css";
 
 function StreamList() {
-    const [cart, setCart] = useState([]);
+    const { cart, addToCart } = useContext(CartContext);
     const [movie, setMovie] = useState("");
     const [movies, setMovies] = useState([]);
+    const [restricted, setRestricted] = useState(false); // Track whether a subscription has been added
 
     // Load saved data on mount
     useEffect(() => {
-        const savedCart = JSON.parse(localStorage.getItem("cartItems")) || [];
         const savedMovies = JSON.parse(localStorage.getItem("moviesList")) || [];
-        setCart(savedCart);
         setMovies(savedMovies);
     }, []);
-
-    // Save cart changes to localStorage
-    useEffect(() => {
-        localStorage.setItem("cartItems", JSON.stringify(cart));
-    }, [cart]);
 
     // Save movies changes to localStorage
     useEffect(() => {
         localStorage.setItem("moviesList", JSON.stringify(movies));
     }, [movies]);
-
-    const addToCart = (item) => {
-        const updatedCart = [...cart];
-        const isMultipleAllowed = [5, 6, 7, 8].includes(item.id);
-        const itemExists = updatedCart.find((cartItem) => cartItem.id === item.id);
-
-        if (isMultipleAllowed || !itemExists) {
-            updatedCart.push(item);
-            setCart(updatedCart);
-        } else {
-            alert("This item is already in your cart.");
-        }
-    };
 
     const handleAddMovie = (e) => {
         e.preventDefault();
@@ -77,6 +59,26 @@ function StreamList() {
                 movie.id === id ? { ...movie, checked: !movie.checked } : movie
             )
         );
+    };
+
+    const handleAddToCart = (item) => {
+        // Check if product ID is between 1 and 4
+        if (item.id >= 1 && item.id <= 4) {
+            // Check if any product with IDs 1-4 already exists in the cart
+            const alreadyAdded = cart.some((cartItem) => cartItem.id >= 1 && cartItem.id <= 4);
+            if (alreadyAdded) {
+                alert("A subscription has already been added to your cart!");
+                return; // Prevent adding another product from 1-4
+            } 
+        }
+
+        // Proceed with adding the item to the cart
+        addToCart(item);
+
+        // Restrict adding further products from 1-4 if one has already been added
+        if (item.id >= 1 && item.id <= 4) {
+            setRestricted(true);
+        }
     };
 
     return (
@@ -139,8 +141,9 @@ function StreamList() {
                         <p>{item.serviceInfo}</p>
                         <p className="price">${item.price}</p>
                         <button
-                            onClick={() => addToCart(item)}
+                            onClick={() => handleAddToCart(item)} // Use updated function here
                             className="add-to-cart-button"
+                            disabled={restricted && item.id >= 1 && item.id <= 4} // Disable button if restriction is active
                         >
                             Add to Cart
                         </button>

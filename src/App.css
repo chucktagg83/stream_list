@@ -1,3 +1,39 @@
+/* Light mode styles */
+.light {
+  background-color: #ffffff; /* Light background */
+  color: #000000; /* Dark text */
+}
+
+/* Dark mode styles */
+.dark {
+  background-color: #2e2e2e; /* Dark background */
+  color: #ffffff; /* Light text */
+}
+
+/* Optional: Styling for the navbar or any other elements you want to change */
+.navbar {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.dark .navbar {
+  background-color: #333333; /* Dark background for navbar */
+  color: #ffffff; /* Light text for navbar */
+}
+
+button {
+  background-color: #4CAF50; /* Green button */
+  color: white;
+  padding: 15px 32px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* For dark mode, you can style buttons differently */
+.dark button {
+  background-color: #555555; /* Darker button background */
+}
+
 .navbar {
     width: 100%; /* Makes navbar stretch across the page */
     list-style: none; /* Removes bullet points from list */
@@ -17,7 +53,7 @@
     top: 0; /* Positions navbar at the top of the page */ 
     left: 0; /* Positions navbar at the left of the page */
     height: 60px; /* Sets height of the navbar */ 
-    font-color: yellow; /* Sets text color */
+    color: yellow; /* Sets text color */
   }
 
   .navbar a:hover {

@@ -3,36 +3,45 @@ import { FaMoon, FaSun } from "react-icons/fa";
 import { useContext } from "react";
 import { CartContext } from "../CartContext";
 
-const Navbar = ({ darkMode, setDarkMode }) => {
-  const { cart } = useContext(CartContext); // Accessing cart from context
+const Navbar = ({ darkMode, setDarkMode, user, handleSignOut }) => {
+  const { cart } = useContext(CartContext);
 
-  // Calculate the total number of items in the cart
-  const getTotalItems = () => {
-    return cart.reduce((total, item) => total + item.quantity, 0);
-  };
-
-  // Calculate the total price of the cart
-  const getTotalPrice = () => {
-    return cart.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
-  };
-
-  // Function to toggle dark mode
   const toggleDarkMode = () => {
     setDarkMode((prev) => !prev); // Toggle the state
   };
 
+  const getTotalItems = () => {
+    return cart.reduce((total, item) => total + item.quantity, 0);
+  };
+
+  const getTotalPrice = () => {
+    return cart.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
+  };
+
   return (
-    <nav className="navbar">
+    <nav className={`navbar ${darkMode ? "dark" : "light"}`}>
       <ul>
         <li><Link to="/">StreamList</Link></li>
         <li><Link to="/movies">Movies</Link></li>
         <li><Link to="/cart">Cart ({getTotalItems()} items - ${getTotalPrice()})</Link></li>
         <li><Link to="/about">About</Link></li>
+
+        {/* Dark Mode Toggle */}
         <li className="toggle">
           <button className="toggle" onClick={toggleDarkMode}>
-            {darkMode ? <FaMoon /> : <FaSun />} {/* Icons for light and dark mode */}
+            {darkMode ? <FaMoon /> : <FaSun />}
           </button>
         </li>
+
+        {/* User Info and Sign Out */}
+        {user ? (
+          <li className="user-info">
+          <span>Welcome, {user.displayName || "User"}!</span>
+          <button onClick={handleSignOut}>Sign out</button>
+        </li>
+        ) : (      
+          <li><Link to="/login">Login</Link></li>
+        )}
       </ul>
     </nav>
   );

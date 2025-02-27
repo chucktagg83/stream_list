@@ -2,7 +2,7 @@
 :root {
   --background-color: #ffffff;
   --card-background: #f9f9f9;
-  --text-color: #333333;
+  --text-color: #333333;  /* Light mode text color */
   --button-background: #007BFF;
   --button-hover: #0056b3;
   --border-color: #ddd;
@@ -12,8 +12,8 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --background-color: #121212;
-    --card-background: #1f1f1f;
-    --text-color: #f0f0f0;
+    --card-background: #1f1f1f;  /* Darker background for cards */
+    --text-color: #e0e0e0;  /* Lighter text color for dark mode */
     --button-background: #6200ee;
     --button-hover: #3700b3;
     --border-color: #444;
@@ -23,7 +23,7 @@
 body {
   font-family: Arial, sans-serif;
   background-color: var(--background-color);
-  color: var(--text-color);
+  color: var(--text-color);  /* Applying text color variable */
   margin: 0;
   padding-top: 80px;
 }
@@ -37,12 +37,13 @@ body {
 }
 
 .service-card {
-  background-color: var(--card-background);
+  background-color: var(--card-background);  /* Updated card background */
   padding: 20px;
   border: 1px solid var(--border-color);
   border-radius: 8px;
   text-align: center;
   transition: transform 0.2s;
+  color: var(--text-color);  /* Ensure text color inside cards is based on theme */
 }
 
 .service-card img {
@@ -64,7 +65,7 @@ body {
 
 .add-to-cart-button {
   background-color: var(--button-background);
-  color: white;
+  color: whitesmoke;
   border: none;
   padding: 10px;
   border-radius: 20px;
