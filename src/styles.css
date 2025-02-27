@@ -1,5 +1,7 @@
 body {
+    margin-top: 150px;
     font-family: "Ga Maamli", serif;
+    font-size: 25px;
     font-weight: 400;
     font-style: normal;
 }
@@ -66,4 +68,29 @@ button {
   margin: 5px;
   border: none;
   cursor: pointer;
+}
+
+.login-container {
+  text-align: center;
+  padding: 20px;
+}
+
+.google-btn, .github-btn {
+  display: block;
+  margin: 10px auto;
+  padding: 10px 15px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+}
+
+.google-btn {
+  background-color: #db4437;
+  color: white;
+}
+
+.github-btn {
+  background-color: #333;
+  color: white;
 }

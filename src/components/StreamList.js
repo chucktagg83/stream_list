@@ -9,7 +9,7 @@ function StreamList() {
     const { cart, addToCart } = useContext(CartContext);
     const [movie, setMovie] = useState("");
     const [movies, setMovies] = useState([]);
-    const [restricted, setRestricted] = useState(false); // Track whether a subscription has been added
+    const [restricted, setRestricted] = useState(false);
 
     // Load saved data on mount
     useEffect(() => {
@@ -62,20 +62,16 @@ function StreamList() {
     };
 
     const handleAddToCart = (item) => {
-        // Check if product ID is between 1 and 4
         if (item.id >= 1 && item.id <= 4) {
-            // Check if any product with IDs 1-4 already exists in the cart
             const alreadyAdded = cart.some((cartItem) => cartItem.id >= 1 && cartItem.id <= 4);
             if (alreadyAdded) {
                 alert("A subscription has already been added to your cart!");
-                return; // Prevent adding another product from 1-4
+                return;
             } 
         }
 
-        // Proceed with adding the item to the cart
         addToCart(item);
 
-        // Restrict adding further products from 1-4 if one has already been added
         if (item.id >= 1 && item.id <= 4) {
             setRestricted(true);
         }
@@ -141,9 +137,9 @@ function StreamList() {
                         <p>{item.serviceInfo}</p>
                         <p className="price">${item.price}</p>
                         <button
-                            onClick={() => handleAddToCart(item)} // Use updated function here
+                            onClick={() => handleAddToCart(item)} 
                             className="add-to-cart-button"
-                            disabled={restricted && item.id >= 1 && item.id <= 4} // Disable button if restriction is active
+                            disabled={restricted && item.id >= 1 && item.id <= 4} 
                         >
                             Add to Cart
                         </button>

@@ -1,30 +1,53 @@
+// src/firebase.js
 import { initializeApp } from "firebase/app";
-import { 
-  getAuth, 
-  GithubAuthProvider, 
-  GoogleAuthProvider, 
-  signInWithPopup, 
-  signOut, 
-  onAuthStateChanged 
-} from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, GithubAuthProvider, signOut, onAuthStateChanged } from "firebase/auth";
 
-// Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyCvPe-jBDOtUz6rESSgJE6BfvFOLJO-mB0",
-  authDomain: "streamlist-71822.firebaseapp.com",
-  projectId: "streamlist-71822",
-  storageBucket: "streamlist-71822.firebasestorage.app",
-  messagingSenderId: "444163202583",
-  appId: "1:444163202583:web:a6f3749acd0b4b73290652",
-  measurementId: "G-DCCSQ4M10H"
+  apiKey: "AIzaSyANtxX_8szB76lWQ9hmCCsWswPY6lZzyrU",
+  authDomain: "streamlist123.firebaseapp.com",
+  projectId: "streamlist123",
+  storageBucket: "streamlist123.firebasestorage.app",
+  messagingSenderId: "171925137286",
+  appId: "1:171925137286:web:e2a78a080440e3e751ae07",
+  measurementId: "G-CQTLQQXLNT"
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-// Define Providers
-const githubProvider = new GithubAuthProvider();
+// Sign-in with Google
 const googleProvider = new GoogleAuthProvider();
+const githubProvider = new GithubAuthProvider();
 
-export { auth, githubProvider, googleProvider, signInWithPopup, signOut, onAuthStateChanged };
+export const loginWithEmail = (email, password) => {
+  return signInWithEmailAndPassword(auth, email, password);
+};
+
+export const registerWithEmail = (email, password) => {
+  return createUserWithEmailAndPassword(auth, email, password);
+};
+
+export const loginWithGoogle = () => {
+  return signInWithPopup(auth, googleProvider);
+};
+
+export const loginWithGitHub = () => {
+  githubProvider.setCustomParameters({
+    // Include the correct redirect URI if needed
+    redirect_uri: "https://streamlist123.firebaseapp.com/__/auth/handler", // Example URI
+  });
+  return signInWithPopup(auth, githubProvider);
+};
+
+export const handleSignOut = () => {
+  return signOut(auth);
+};
+
+// Using the updated onAuthStateChanged listener
+export const onAuthStateChangedListener = (callback) => {
+  return onAuthStateChanged(auth, callback);
+};
+
+// Export auth so it can be used in Register.js
+export { auth };
