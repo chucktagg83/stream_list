@@ -1,18 +1,18 @@
 // src/App.js
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider, useAuth } from './Components/AuthContext';
-import { CartProvider } from './Components/CartContext';
+import { AuthProvider, useAuth } from './components/AuthContext';
+import { CartProvider } from './components/CartContext';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Login from './Components/Login';
-import Navbar from './Components/Navbar';
-import StreamList from './Components/StreamList';
-import Movies from './Components/Movies';
-import About from './Components/About';
-import Cart from './Components/Cart';
-import CreditCardForm from './Components/CreditCardForm';
-import OrderConfirmation from './Components/OrderConfirmation'; 
+import Login from './components/Login';
+import Navbar from './components/Navbar';
+import StreamList from './components/StreamList';
+import Movies from './components/Movies';
+import About from './components/About';
+import Cart from './components/Cart';
+import CreditCardForm from './components/CreditCardForm';
+import OrderConfirmation from './components/OrderConfirmation'; 
 import './App.css';
 
 // Loading component
