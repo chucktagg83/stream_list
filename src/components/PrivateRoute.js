@@ -1,14 +1,20 @@
+// src/components/PrivateRoute.js
 import React from 'react';
 import { Navigate } from 'react-router-dom';
+import { useAuth } from './AuthContext';
 
-// This component protects the routes from non-authenticated users
-const PrivateRoute = ({ children, user }) => {
-  if (!user) {
-    // If the user is not logged in, redirect to the login page
-    return <Navigate to="/" />;
+const PrivateRoute = ({ children }) => {
+  const { user, loading } = useAuth();
+
+  if (loading) {
+    return <div className="loading-screen">Loading...</div>;
   }
 
-  return children; // Render children (protected components) if the user is logged in
+  if (!user) {
+    return <Navigate to="/login" />;
+  }
+
+  return children;
 };
 
 export default PrivateRoute;

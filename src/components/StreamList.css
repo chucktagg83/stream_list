@@ -1,0 +1,689 @@
+/* Updated CSS for StreamList.css with optimized three-column layout and hover effects */
+
+/* Base layout */
+.stream-list-page {
+  max-width: 1800px; /* Increased max-width to accommodate three columns */
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+/* Three-column layout with fixed-width sidebars and flexible main content */
+.three-column-layout {
+  display: grid;
+  grid-template-columns: 250px minmax(0, 1fr) 250px; /* Fixed sidebars, flexible middle */
+  gap: 1.5rem;
+  margin-top: 2rem;
+  align-items: start; /* Align items to the top */
+}
+
+/* Make sidebars sticky for better UX */
+.watchlist-sidebar,
+.product-sidebar {
+  position: sticky;
+  top: 1rem;
+  max-height: calc(100vh - 2rem);
+  overflow-y: auto;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  scrollbar-width: thin; /* For Firefox */
+  scrollbar-width: auto; /* Fallback for unsupported browsers */
+    scrollbar-color: #c1c1c1 #f1f1f1;
+  }
+  
+  .watchlist-sidebar::-webkit-scrollbar,
+  .product-sidebar::-webkit-scrollbar {
+    width: 5px;
+  }
+  
+  .watchlist-sidebar::-webkit-scrollbar-track,
+  .product-sidebar::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+  }
+  
+  .watchlist-sidebar::-webkit-scrollbar-thumb,
+  .product-sidebar::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 10px;
+}
+
+/* Main content area */
+.main-content {
+  min-width: 0; /* Prevents flex item from overflowing */
+  width: 100%;
+}
+
+/* Adjust movie grid to fit available space */
+.movie-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); /* Responsive grid */
+  gap: 1rem;
+  margin-bottom: 3rem;
+}
+
+/* Sidebar headers */
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid #e0e0e0;
+  position: sticky;
+  top: 0;
+  background-color: #f9f9f9;
+  z-index: 1;
+}
+
+.sidebar-header h2 {
+  font-size: 1.1rem;
+  margin: 0;
+  color: #333;
+}
+
+/* Watchlist specific styles */
+.watchlist-count {
+  background-color: #4a6cf7;
+  color: white;
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.watchlist-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.watchlist-item {
+  background-color: white;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  border-left: 3px solid #4a6cf7;
+}
+
+.watchlist-item.completed {
+  border-left-color: #28a745;
+  opacity: 0.8;
+}
+
+.watchlist-item-content {
+  display: flex;
+  padding: 0.7rem;
+}
+
+.watchlist-item-image {
+  width: 50px;
+  height: 70px;
+  flex-shrink: 0;
+  position: relative;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.watchlist-item-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.completed-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(40, 167, 69, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.5rem;
+}
+
+.watchlist-item-details {
+  flex: 1;
+  padding-left: 0.7rem;
+  display: flex;
+  flex-direction: column;
+  min-width: 0; /* Prevent text overflow */
+}
+
+.watchlist-item-details h3 {
+  margin: 0 0 0.3rem 0;
+  font-size: 0.9rem;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.item-note {
+  font-size: 0.75rem;
+  color: #666;
+  margin: 0.2rem 0;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.item-date {
+  font-size: 0.7rem;
+  color: #999;
+  margin-top: auto;
+}
+
+.watchlist-item-actions {
+  display: flex;
+  border-top: 1px solid #eee;
+  background-color: #f9f9f9;
+}
+
+.action-btn {
+  flex: 1;
+  border: none;
+  background: none;
+  padding: 0.4rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.complete-btn {
+  color: #28a745;
+}
+
+.uncomplete-btn {
+  color: #6c757d;
+}
+
+.edit-btn {
+  color: #4a6cf7;
+}
+
+.delete-btn {
+  color: #dc3545;
+}
+
+.action-btn:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.edit-mode {
+  padding: 0.8rem;
+}
+
+.edit-mode textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  resize: vertical;
+  margin-bottom: 0.5rem;
+}
+
+.edit-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.save-btn, .cancel-btn {
+  padding: 0.4rem 0.8rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background-color 0.2s ease;
+}
+
+.save-btn {
+  background-color: #28a745;
+  color: white;
+}
+
+.cancel-btn {
+  background-color: #6c757d;
+  color: white;
+}
+
+.save-btn:hover {
+  background-color: #218838;
+}
+
+.cancel-btn:hover {
+  background-color: #5a6268;
+}
+
+/* Product sidebar styles */
+.product-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.sidebar-product {
+  display: flex;
+  background-color: white;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.sidebar-product:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.product-image {
+  width: 60px;
+  height: 60px;
+  flex-shrink: 0;
+}
+
+.product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background-color: #f5f5f5;
+}
+
+.product-details {
+  padding: 0.6rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0; /* Prevent text overflow */
+}
+
+.product-details h3 {
+  margin: 0 0 0.2rem 0;
+  font-size: 0.85rem;
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.product-info {
+  font-size: 0.7rem;
+  color: #666;
+  margin: 0 0 0.2rem 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.product-price {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #28a745;
+  font-weight: 600;
+  font-size: 0.8rem;
+  margin-bottom: 0.3rem;
+}
+
+.add-to-cart-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  background-color: #4a6cf7;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 0.7rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.add-to-cart-btn:hover {
+  background-color: #3a5ce5;
+}
+
+/* Movie card styles with hover effects */
+.movie-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.movie-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.movie-poster {
+  position: relative;
+  height: 220px; /* Slightly reduced height */
+  overflow: hidden;
+}
+
+.movie-poster img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.movie-card:hover .movie-poster img {
+  transform: scale(1.05);
+}
+
+/* Movie overlay - restored hover functionality */
+.movie-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.3) 60%, rgba(0, 0, 0, 0) 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0.8rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none; /* Ensure it doesn't block interactions when hidden */
+}
+
+.movie-card:hover .movie-overlay {
+  opacity: 1;
+  pointer-events: auto; /* Re-enable interactions when visible */
+}
+
+.overlay-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 7px 0;
+  margin-bottom: 7px;
+  border-radius: 4px;
+  font-weight: 500;
+  font-size: 0.85rem;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.overlay-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.overlay-actions .overlay-btn {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+.watch-btn {
+  background-color: #4a6cf7;
+  color: white;
+}
+
+.info-btn {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.cart-btn {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.watchlist-btn {
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.watchlist-btn:disabled {
+  background-color: #28a745;
+  cursor: default;
+}
+
+.watch-btn:hover, .cart-btn:hover, .watchlist-btn:hover:not(:disabled) {
+  filter: brightness(1.1);
+}
+
+.info-btn:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.movie-info {
+  padding: 0.7rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.movie-info h3 {
+  margin: 0 0 0.4rem 0;
+  font-size: 0.95rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.movie-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.4rem;
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.movie-genre {
+  color: #4a6cf7;
+  font-size: 0.8rem;
+  margin: 0;
+}
+
+.star-icon {
+  color: #ffc107;
+  margin-right: 2px;
+}
+
+/* Custom scrollbar for better aesthetics */
+.watchlist-sidebar::-webkit-scrollbar,
+.product-sidebar::-webkit-scrollbar {
+  width: 5px;
+}
+
+.watchlist-sidebar::-webkit-scrollbar-track,
+.product-sidebar::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.watchlist-sidebar::-webkit-scrollbar-thumb,
+.product-sidebar::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 10px;
+}
+
+/* Mobile toggle for watchlist */
+.mobile-watchlist-toggle {
+  display: none;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #4a6cf7;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+/* Featured Collections */
+.featured-section {
+  margin-top: 2rem;
+}
+
+.featured-section h2 {
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.collection-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.collection-card {
+  position: relative;
+  height: 150px;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.collection-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.collection-card:hover img {
+  transform: scale(1.05);
+}
+
+.collection-card h3 {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0.8rem;
+  margin: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0));
+  color: white;
+  font-size: 1rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1400px) {
+  .three-column-layout {
+    grid-template-columns: 220px minmax(0, 1fr) 220px; /* Slightly narrower sidebars */
+  }
+  
+  .movie-grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  }
+}
+
+@media (max-width: 1200px) {
+  .three-column-layout {
+    grid-template-columns: 200px minmax(0, 1fr) 200px; /* Even narrower sidebars */
+  }
+  
+  .movie-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+  
+  .movie-poster {
+    height: 200px;
+  }
+}
+
+@media (max-width: 992px) {
+  /* Stack the layout on medium screens */
+  .three-column-layout {
+    grid-template-columns: 1fr; /* Single column */
+    grid-template-areas:
+      "main"
+      "watchlist"
+      "products";
+  }
+  
+  .main-content {
+    grid-area: main;
+  }
+  
+  .watchlist-sidebar {
+    grid-area: watchlist;
+    position: static; /* Remove sticky positioning */
+    max-height: none;
+    margin-top: 1.5rem;
+  }
+  
+  .product-sidebar {
+    grid-area: products;
+    position: static; /* Remove sticky positioning */
+    max-height: none;
+    margin-top: 1.5rem;
+  }
+  
+  .movie-grid {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  }
+  
+  /* Show mobile watchlist toggle */
+  .mobile-watchlist-toggle {
+    display: flex;
+  }
+  
+  /* Hide watchlist by default on mobile */
+  .watchlist-sidebar {
+    display: none;
+  }
+  
+  /* Show watchlist when toggled */
+  .watchlist-sidebar.mobile-show {
+    display: block;
+  }
+  
+  .collection-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 576px) {
+  .movie-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  }
+  
+  .movie-poster {
+    height: 180px;
+  }
+  
+  .collection-cards {
+    grid-template-columns: 1fr;
+  }
+  
+  .overlay-btn {
+    font-size: 0.8rem;
+    padding: 6px 0;
+  }
+}
+
+

@@ -1,133 +1,113 @@
-import { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { handleSignOut, onAuthStateChangedListener } from "./firebase";
-import Navbar from "./components/Navbar";
-import StreamList from "./components/StreamList";
-import Movies from "./components/Movies";
-import Cart from "./components/Cart";
-import Subscription from "./components/Subscription";
-import Product from "./components/Products";
-import { CartProvider } from "./CartContext";
-import "./App.css";
-import "./styles.css";
-import Register from "./components/Register";
-import Login from "./components/Login"; // Import the Login component
-import GoogleLogin from "./components/GoogleLogin"; // Import the GoogleLogin component
-import GithubLogin from "./components/GithubLogin"; // Import the GithubLogin component
-import ProtectedRoute from "./components/ProtectedRoutes"; // Import the ProtectedRoute component 
+// src/App.js
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider, useAuth } from './Components/AuthContext';
+import { CartProvider } from './Components/CartContext';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Login from './Components/Login';
+import Navbar from './Components/Navbar';
+import StreamList from './Components/StreamList';
+import Movies from './Components/Movies';
+import About from './Components/About';
+import Cart from './Components/Cart';
+import CreditCardForm from './Components/CreditCardForm';
+import OrderConfirmation from './Components/OrderConfirmation'; 
+import './App.css';
 
-function App() {
-  // Load user from localStorage, if available
-  const [user, setUser] = useState(() => {
-    return JSON.parse(localStorage.getItem("user")) || null; // Load user from localStorage
-  });
+// Loading component
+const LoadingScreen = () => (
+  <div style={{ 
+    display: 'flex', 
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    height: '100vh',
+    flexDirection: 'column'
+  }}>
+    <div>Loading...</div>
+  </div>
+);
 
-  // Manage dark mode state and persistence in localStorage
-  const [darkMode, setDarkMode] = useState(() => {
-    return localStorage.getItem("darkMode") === "true"; // Load dark mode preference from localStorage
-  });
+// Protected route component
+const ProtectedRoute = ({ children }) => {
+  const { user, loading } = useAuth();
+  
+  if (loading) {
+    return <LoadingScreen />;
+  }
+  
+  if (!user) {
+    return <Navigate to="/login" />;
+  }
+  
+  return children;
+};
 
-  // Effect to toggle dark mode based on the state
-  useEffect(() => {
-    console.log("User State:", user); // Log user state to see its value
-    if (darkMode) {
-      document.body.classList.add("dark");
-      localStorage.setItem("darkMode", "true"); // Save dark mode state to localStorage
-    } else {
-      document.body.classList.remove("dark");
-      localStorage.setItem("darkMode", "false"); // Save dark mode state to localStorage
-    }
-  }, [darkMode, user]); // Only depend on darkMode and user for this effect
-
-  // Effect to listen for changes in authentication state and update the user
-  useEffect(() => {
-    const unsubscribe = onAuthStateChangedListener((currentUser) => {
-      console.log("Auth state changed:", currentUser); // Log auth state changes
-      setUser(currentUser);
-      if (currentUser) {
-        localStorage.setItem("user", JSON.stringify(currentUser)); // Save user session
-      } else {
-        localStorage.removeItem("user"); // Clear storage on logout
-      }
-    });
-
-    return () => unsubscribe();
-  }, []);
+// Main app content with routing
+function AppContent() {
+  const { user, login, loading } = useAuth();
+  
+  // Show loading screen while auth state is being determined
+  if (loading) {
+    return <LoadingScreen />;
+  }
 
   return (
-    <CartProvider>
-      <Router>
-        <Navbar
-          user={user}
-          handleSignOut={() => {
-            handleSignOut();
-            setUser(null);
-            localStorage.removeItem("user");
-          }}
-          darkMode={darkMode}
-          setDarkMode={setDarkMode}
-        />
-        <Routes>
-          {/* Route for Login page, only if the user is not logged in */}
-          {!user ? (
-            <>
-              <Route path="/" element={<Login setUser={setUser} />} />
-              <Route path="/register" element={<Register />} />
-              {/* Add routes for Google and GitHub Login */}
-              <Route path="/google-login" element={<GoogleLogin setUser={setUser} />} />
-              <Route path="/github-login" element={<GithubLogin setUser={setUser} />} />
-            </>
-          ) : (
-            <>
-              {/* Redirect logged-in users from login */}
-              <Route path="/login" element={<Navigate to="/" />} />
-              <Route
-                path="/"
-                element={
-                  <ProtectedRoute user={user}>
-                    <StreamList />
-                  </ProtectedRoute>
-                }
-              />
-              {/* Protected routes */}
-              <Route
-                path="/movies"
-                element={
-                  <ProtectedRoute user={user}>
-                    <Movies />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/cart"
-                element={
-                  <ProtectedRoute user={user}>
-                    <Cart />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/subscriptions"
-                element={
-                  <ProtectedRoute user={user}>
-                    <Subscription />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/products"
-                element={
-                  <ProtectedRoute user={user}>
-                    <Product />
-                  </ProtectedRoute>
-                }
-              />
-              <Route path="/about" element={<h2>About Page (Coming Soon)</h2>} />
-            </>
-          )}
-        </Routes>
-      </Router>
-    </CartProvider>
+    <Router>
+      {user && <Navbar />}
+      <Routes>
+        <Route path="/login" element={
+          user ? <Navigate to="/" /> : <Login onLogin={login} />
+        } />
+        <Route path="/" element={
+          <ProtectedRoute>
+            <StreamList />
+          </ProtectedRoute>
+        } />
+        <Route path="/movies" element={
+          <ProtectedRoute>
+            <Movies />
+          </ProtectedRoute>
+        } />
+        <Route path="/about" element={
+          <ProtectedRoute>
+            <About />
+          </ProtectedRoute>
+        } />
+        <Route path="/cart" element={
+          <ProtectedRoute>
+            <Cart />
+          </ProtectedRoute>
+        } />
+        {/* Add the checkout routes */}
+        <Route path="/checkout" element={
+          <ProtectedRoute>
+            <CreditCardForm />
+          </ProtectedRoute>
+        } />
+        <Route path="/order-confirmation" element={
+          <ProtectedRoute>
+            <OrderConfirmation />
+          </ProtectedRoute>
+        } />
+        {/* Add a catch-all route */}
+        <Route path="*" element={user ? <Navigate to="/" /> : <Navigate to="/login" />} />
+      </Routes>
+      <ToastContainer position="bottom-right" />
+    </Router>
+  );
+}
+
+// Main App component
+function App() {
+  return (
+    <div className="App">
+      <AuthProvider>
+        <CartProvider>
+          <AppContent />
+        </CartProvider>
+      </AuthProvider>
+    </div>
   );
 }
 
