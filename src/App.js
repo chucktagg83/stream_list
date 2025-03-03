@@ -14,6 +14,8 @@ import CreditCardForm from './components/CreditCardForm';
 import OrderConfirmation from './components/OrderConfirmation'; 
 import './App.css';
 
+// Removed incorrect BrowserRouter usage
+
 // Loading component with a more user-friendly appearance
 const LoadingScreen = () => (
   <div className="loading-container">
