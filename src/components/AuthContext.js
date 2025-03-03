@@ -1,7 +1,8 @@
-// src/Components/AuthContext.js
+// Code to manage user authentication state using Firebase Auth
+// This code is based on the Firebase Auth documentation: https://firebase.google.com/docs/auth/web/start
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import { auth, signOut } from '../Services/Firebase';
-import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from '../Services/Firebase';
+import { onAuthStateChanged, signOut as firebaseSignOut } from 'firebase/auth';
 
 // Create context
 export const AuthContext = createContext();
@@ -20,6 +21,9 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  // Clear any auth errors
+  const clearError = () => setError(null);
 
   useEffect(() => {
     console.log("AuthProvider initialized");
@@ -47,8 +51,10 @@ export const AuthProvider = ({ children }) => {
           const userData = {
             uid: firebaseUser.uid,
             email: firebaseUser.email,
-            name: firebaseUser.displayName || firebaseUser.email.split('@')[0],
+            name: firebaseUser.displayName || firebaseUser.email?.split('@')[0] || 'User',
             photoURL: firebaseUser.photoURL,
+            emailVerified: firebaseUser.emailVerified,
+          
           };
           setUser(userData);
           localStorage.setItem('user', JSON.stringify(userData));
@@ -74,9 +80,9 @@ export const AuthProvider = ({ children }) => {
     };
   }, []);
 
-  // Login function
-  const login = (userData) => {
-    console.log("Login called with:", userData);
+  // Update user data (for when you need to update without a full auth state change)
+  const updateUserData = (userData) => {
+    console.log("Updating user data:", userData);
     setUser(userData);
     localStorage.setItem('user', JSON.stringify(userData));
   };
@@ -84,13 +90,17 @@ export const AuthProvider = ({ children }) => {
   // Logout function
   const logout = async () => {
     console.log("Logout called");
+    setLoading(true);
+    clearError();
     try {
-      await signOut(auth);
+      await firebaseSignOut(auth);
       setUser(null);
       localStorage.removeItem('user');
     } catch (error) {
       console.error('Logout error:', error);
       setError(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -99,8 +109,9 @@ export const AuthProvider = ({ children }) => {
     user,
     loading,
     error,
-    login,
+    updateUserData,
     logout,
+    clearError,
     isAuthenticated: !!user
   };
 

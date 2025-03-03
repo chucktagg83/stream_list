@@ -1,4 +1,4 @@
-// src/Components/CartContext.js
+
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import { toast } from 'react-toastify';
 
@@ -27,7 +27,7 @@ export const CartProvider = ({ children }) => {
   }, [cart]);
   
   // Check if a product is a subscription (IDs 1-4)
-  const isSubscription = (productId) => {
+  const isSubscription = (productId) => { 
     return productId >= 1 && productId <= 4;
   };
   
@@ -42,6 +42,8 @@ export const CartProvider = ({ children }) => {
   };
   
   const addToCart = (product) => {
+    console.log('Adding to cart:', product);
+    console.log('Current cart:', cart); 
     // Check if product is a subscription
     const productIsSubscription = isSubscription(product.id);
     
@@ -52,28 +54,37 @@ export const CartProvider = ({ children }) => {
         <div className="subscription-toast">
           <strong>A subscription is already in your cart!</strong>
           <p>Only 1 subscription per person please!</p>
-        </div>, 
-        {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true
-        }
-      );
-      return false; // Return false to indicate the item wasn't added
+    </div>, 
+    {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true
     }
-    
-    // Make sure we have all the required fields
-    const itemToAdd = {
-      id: product.id,
-      title: product.title || product.name || product.service || 'Product',
-      price: parseFloat(product.price) || 0,
-      image: product.image || product.poster || product.img || '',
-      quantity: product.quantity || 1,
-      isSubscription: productIsSubscription
-    };
+  );
+  return false; // Return false to indicate the item wasn't added
+}
+
+// Improved price parsing
+let price = 0;
+if (typeof product.price === 'number') {
+  price = product.price;
+} else if (typeof product.price === 'string') {
+  // Remove any non-numeric characters except decimal point
+  price = parseFloat(product.price.replace(/[^\d.-]/g, '')) || 0;
+}
+
+// Make sure we have all the required fields
+const itemToAdd = {
+  id: product.id,
+  title: product.title || product.name || product.service || 'Product',
+  price: price, // Use the properly parsed price
+  image: product.image || product.poster || product.img || '',
+  quantity: product.quantity || 1,
+  isSubscription: productIsSubscription
+};
     
     setCart(prevCart => {
       // Check if item already exists in cart

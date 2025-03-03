@@ -1,30 +1,57 @@
-// src/Components/Login.js
+
 import React, { useState } from 'react';
 import { FaGithub, FaGoogle, FaEnvelope, FaLock, FaUser } from 'react-icons/fa';
 import { 
   signInWithGoogle, 
   signInWithGithub, 
   signInWithEmail, 
-  signUpWithEmail 
+  signUpWithEmail,
+  auth
 } from '../Services/Firebase';
+import { sendPasswordResetEmail } from 'firebase/auth';
+import { useAuth } from '../components/AuthContext';
 import './Login.css';
 
-const Login = ({ onLogin }) => {
+const Login = () => {
+  const { updateUserData } = useAuth();
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
   const [isLogin, setIsLogin] = useState(true);
+  const [rememberMe, setRememberMe] = useState(false);
 
   const toggleMode = () => {
     setIsLogin(!isLogin);
     setError('');
   };
-  
+
+  const validateEmail = (email) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!re.test(email)) {
+      setError('Please enter a valid email address');
+      return false;
+    }
+    return true;
+  };
+
+  const validatePassword = (password) => {
+    if (!isLogin && password.length < 6) {
+      setError('Password must be at least 6 characters');
+      return false;
+    }
+    return true;
+  };
+   
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    
+    if (!validateEmail(email) || !validatePassword(password)) {
+      return;
+    }
+    
     setLoading(true);
     
     try {
@@ -39,14 +66,13 @@ const Login = ({ onLogin }) => {
       const user = {
         uid: userCredential.user.uid,
         email: userCredential.user.email,
-        name: userCredential.user.displayName || name || email.split('@')[0],
+        name: userCredential.user.displayName || name || 
+              (userCredential.user.email ? userCredential.user.email.split('@')[0] : 'User'),
         photoURL: userCredential.user.photoURL,
+        emailVerified: userCredential.user.emailVerified
       };
       
-      // Store user in localStorage for persistence
-      localStorage.setItem('user', JSON.stringify(user));
-      
-      onLogin(user);
+      updateUserData(user);
     } catch (err) {
       console.error('Authentication error:', err);
       
@@ -87,15 +113,14 @@ const Login = ({ onLogin }) => {
       const user = {
         uid: userCredential.user.uid,
         email: userCredential.user.email,
-        name: userCredential.user.displayName || userCredential.user.email.split('@')[0],
+        name: userCredential.user.displayName || 
+              (userCredential.user.email ? userCredential.user.email.split('@')[0] : 'User'),
         photoURL: userCredential.user.photoURL,
-        provider: provider
+        provider: provider,
+        emailVerified: userCredential.user.emailVerified
       };
       
-      // Store user in localStorage for persistence
-      localStorage.setItem('user', JSON.stringify(user));
-      
-      onLogin(user);
+      updateUserData(user);
     } catch (err) {
       console.error('Social authentication error:', err);
       
@@ -103,6 +128,30 @@ const Login = ({ onLogin }) => {
       if (err.code !== 'auth/popup-closed-by-user') {
         setError(err.message || 'Authentication failed. Please try again.');
       }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handlePasswordReset = async () => {
+    if (!email) {
+      setError('Please enter your email address first');
+      return;
+    }
+    
+    if (!validateEmail(email)) {
+      return;
+    }
+    
+    setLoading(true);
+    
+    try {
+      await sendPasswordResetEmail(auth, email);
+      setError('');
+      alert('Password reset email sent. Please check your inbox.');
+    } catch (err) {
+      console.error('Password reset error:', err);
+      setError('Failed to send password reset email. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -159,6 +208,29 @@ const Login = ({ onLogin }) => {
               required
             />
           </div>
+          
+          {isLogin && (
+            <div className="form-options">
+              <div className="form-group checkbox">
+                <input
+                  type="checkbox"
+                  id="rememberMe"
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
+                />
+                <label htmlFor="rememberMe">Remember me</label>
+              </div>
+              
+              <button 
+                type="button"
+                onClick={handlePasswordReset}
+                className="text-button forgot-password"
+                disabled={loading}
+              >
+                Forgot Password?
+              </button>
+            </div>
+          )}
           
           <button 
             type="submit" 

@@ -1,4 +1,3 @@
-// src/Components/Cart.js
 import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom'; // Make sure useNavigate is imported
 import { CartContext } from './CartContext';
@@ -26,7 +25,7 @@ const Cart = () => {
     if (couponCode.toUpperCase() === 'EZTECH20' && !couponApplied) {
       const discount = subtotal * 0.2; // 20% discount
       setCouponDiscount(discount);
-      setCouponApplied(true);
+      setCouponApplied(true); 
     }
   };
 

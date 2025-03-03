@@ -2,16 +2,17 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./styles.css";
-import { BrowserRouter } from "react-router-dom";
+// Remove the BrowserRouter import and usage
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <BrowserRouter basename="/your-repository-name">
-      <App />
-    </BrowserRouter>
+    <App />
   </React.StrictMode>
 );
+
+// Service worker code remains the same
+
 
 // Registering the Service Worker for offline functionality
 if ('serviceWorker' in navigator) {
@@ -23,3 +24,4 @@ if ('serviceWorker' in navigator) {
       });
   });
 }
+

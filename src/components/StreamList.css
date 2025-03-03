@@ -28,7 +28,19 @@
   padding: 1rem;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
   scrollbar-width: thin; /* For Firefox */
-  scrollbar-width: auto; /* Fallback for unsupported browsers */
+  scrollbar-color: #c1c1c1 #f1f1f1; /* Fallback for unsupported browsers */
+  /* Fallback for unsupported browsers */
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 10px;
+  }
     scrollbar-color: #c1c1c1 #f1f1f1;
   }
   

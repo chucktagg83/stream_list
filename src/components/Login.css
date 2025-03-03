@@ -258,3 +258,38 @@ form {
     flex-direction: column;
   }
 }
+
+.form-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.form-group.checkbox {
+  display: flex;
+  align-items: center;
+}
+
+.form-group.checkbox input {
+  margin-right: 8px;
+  width: auto;
+}
+
+.text-button {
+  background: none;
+  border: none;
+  color: #4285f4;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 0;
+  text-decoration: underline;
+}
+
+.text-button:hover {
+  color: #3367d6;
+}
+
+.forgot-password {
+  font-size: 14px;
+}

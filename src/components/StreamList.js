@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { CartContext } from './CartContext';
 import { FaPlay, FaInfoCircle, FaShoppingCart, FaSearch, FaFilter, FaStar, FaTag, 
          FaEdit, FaTrashAlt, FaCheckCircle, FaPlusCircle, FaListUl, FaTimes } from 'react-icons/fa';
 import list from '../data'; // Import the default export
 import './StreamList.css';
+  
 
 const StreamList = () => {
   const { addToCart } = useContext(CartContext);
@@ -17,7 +18,7 @@ const StreamList = () => {
     sortBy: 'popularity'
   });
   const [showFilters, setShowFilters] = useState(false);
-  
+   
   // Watchlist state
   const [watchlist, setWatchlist] = useState(() => {
     const savedWatchlist = localStorage.getItem('movieWatchlist');
@@ -28,10 +29,10 @@ const StreamList = () => {
   const [showMobileWatchlist, setShowMobileWatchlist] = useState(false);
 
   // Genres for filter dropdown
-  const genres = [
+  const genres = useMemo(() => [
     'all', 'action', 'adventure', 'comedy', 'drama', 
     'horror', 'sci-fi', 'thriller', 'romance', 'documentary'
-  ];
+  ], []);
 
   // Save watchlist to localStorage whenever it changes
   useEffect(() => {
@@ -53,7 +54,7 @@ const StreamList = () => {
         // Transform the movie data to include price and other needed properties
         const transformedMovies = data.results.map(movie => ({
           ...movie,
-          price: (9.99 + (movie.vote_average / 2)).toFixed(2), // Generate a price based on rating
+          price: parseFloat((9.99 + (movie.vote_average / 2)).toFixed(2)), // Convert back to number
           poster: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
           releaseDate: movie.release_date,
           rating: movie.vote_average,
@@ -71,7 +72,7 @@ const StreamList = () => {
     };
   
     fetchMovies();
-  }, []);
+  }, [genres]);
   
   // Filter and sort movies
   const filteredMovies = movies.filter(movie => {
@@ -89,15 +90,16 @@ const StreamList = () => {
     }
   });
 
-  const handleAddToCart = (item) => {
-    addToCart({
-      id: item.id,
-      title: item.title || item.name || item.service,
-      price: item.price,
-      image: item.poster || item.image || item.img,
-      quantity: 1
-    });
-  };
+ const handleAddToCart = (item) => {
+  addToCart({
+    id: item.id,
+    title: item.title || item.name || item.service,
+    price: typeof item.price === 'string' ? parseFloat(item.price) : item.price, // Ensure price is a number
+    image: item.poster || item.image || item.img,
+    quantity: 1
+  });
+};
+
 
   // Watchlist functions
   const addToWatchlist = (movie) => {
