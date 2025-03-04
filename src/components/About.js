@@ -8,13 +8,12 @@ const containerStyle = {
   height: "400px",
   borderRadius: "8px",
 };
-
 const center = {
   lat: 37.7749,
   lng: -122.4194,
 };
 
-const AboutUs = () => {
+const About = () => {
   // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -189,4 +188,4 @@ const AboutUs = () => {
   );
 };
 
-export default AboutUs;
+export default About;
